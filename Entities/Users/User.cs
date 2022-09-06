@@ -1,4 +1,5 @@
 ﻿using JackTrack.Interfaces;
+using System.Text.Json.Serialization;
 
 namespace JackTrack.Entities.Users
 {
@@ -8,7 +9,22 @@ namespace JackTrack.Entities.Users
 		
 		public string Name { get; set; }
 
-		public string Email { get; set; }
+		public string Email { get; set; } = "None";
+
+		public Role Role { get; set; } = Role.Employee;
+
+		[JsonIgnore]
+		public IEnumerable<Mission> IssuedMissions { get; set; }
+
+		[JsonIgnore]
+		public IEnumerable<Mission> Missions { get; set; }
+
+		
+	}
+	public enum Role
+	{
+		Admin = 0,
+		Employee = 1
 
 	}
 }
