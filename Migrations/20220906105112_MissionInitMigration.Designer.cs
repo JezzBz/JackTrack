@@ -3,6 +3,7 @@ using System;
 using JackTrack.Entities.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JackTrack.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220906105112_MissionInitMigration")]
+    partial class MissionInitMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,7 +31,6 @@ namespace JackTrack.Migrations
                         .HasColumnType("bigint");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -50,9 +51,7 @@ namespace JackTrack.Migrations
 
                     b.HasIndex("FromUserId");
 
-
                     b.ToTable("Missions");
-
                 });
 
             modelBuilder.Entity("JackTrack.Entities.Users.User", b =>
@@ -74,18 +73,12 @@ namespace JackTrack.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("TaskId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
-
 
                     b.HasIndex("MissionId");
 
-
                     b.ToTable("Users");
                 });
-
 
             modelBuilder.Entity("JackTrack.Entities.Tasks.Mission", b =>
                 {
@@ -100,14 +93,12 @@ namespace JackTrack.Migrations
 
             modelBuilder.Entity("JackTrack.Entities.Users.User", b =>
                 {
-
                     b.HasOne("JackTrack.Entities.Tasks.Mission", null)
                         .WithMany("ToUsers")
                         .HasForeignKey("MissionId");
                 });
 
             modelBuilder.Entity("JackTrack.Entities.Tasks.Mission", b =>
-
                 {
                     b.Navigation("ToUsers");
                 });

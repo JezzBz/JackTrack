@@ -1,4 +1,5 @@
 using JackTrack.Entities.DataBase;
+using JackTrack.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,8 @@ builder.Services.AddDbContext<Context>(options =>
 {
     options.UseNpgsql(builder.Configuration["ConnectionString"]);
 });
+
+
 
 var app = builder.Build();
 
