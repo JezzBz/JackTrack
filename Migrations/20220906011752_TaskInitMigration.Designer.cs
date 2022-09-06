@@ -3,6 +3,7 @@ using System;
 using JackTrack.Entities.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JackTrack.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220906011752_TaskInitMigration")]
+    partial class TaskInitMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,14 +24,11 @@ namespace JackTrack.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("JackTrack.Entities.Tasks.Mission", b =>
+            modelBuilder.Entity("JackTrack.Entities.Tasks.Task", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -50,9 +49,7 @@ namespace JackTrack.Migrations
 
                     b.HasIndex("FromUserId");
 
-
-                    b.ToTable("Missions");
-
+                    b.ToTable("Tasks");
                 });
 
             modelBuilder.Entity("JackTrack.Entities.Users.User", b =>
@@ -67,9 +64,6 @@ namespace JackTrack.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long?>("MissionId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -79,15 +73,12 @@ namespace JackTrack.Migrations
 
                     b.HasKey("Id");
 
-
-                    b.HasIndex("MissionId");
-
+                    b.HasIndex("TaskId");
 
                     b.ToTable("Users");
                 });
 
-
-            modelBuilder.Entity("JackTrack.Entities.Tasks.Mission", b =>
+            modelBuilder.Entity("JackTrack.Entities.Tasks.Task", b =>
                 {
                     b.HasOne("JackTrack.Entities.Users.User", "FromUser")
                         .WithMany()
@@ -100,14 +91,12 @@ namespace JackTrack.Migrations
 
             modelBuilder.Entity("JackTrack.Entities.Users.User", b =>
                 {
-
-                    b.HasOne("JackTrack.Entities.Tasks.Mission", null)
+                    b.HasOne("JackTrack.Entities.Tasks.Task", null)
                         .WithMany("ToUsers")
-                        .HasForeignKey("MissionId");
+                        .HasForeignKey("TaskId");
                 });
 
-            modelBuilder.Entity("JackTrack.Entities.Tasks.Mission", b =>
-
+            modelBuilder.Entity("JackTrack.Entities.Tasks.Task", b =>
                 {
                     b.Navigation("ToUsers");
                 });
