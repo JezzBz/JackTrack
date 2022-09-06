@@ -3,6 +3,7 @@ using System;
 using JackTrack.Entities.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JackTrack.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220906152635_MissionInitMigration")]
+    partial class MissionInitMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,37 +66,24 @@ namespace JackTrack.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<long?>("MissionId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
+                    b.HasIndex("MissionId");
+
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("MissionUser", b =>
-                {
-                    b.Property<long>("MissionsId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ToUsersId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("MissionsId", "ToUsersId");
-
-                    b.HasIndex("ToUsersId");
-
-                    b.ToTable("MissionUser");
                 });
 
             modelBuilder.Entity("JackTrack.Entities.Tasks.Mission", b =>
                 {
                     b.HasOne("JackTrack.Entities.Users.User", "FromUser")
-                        .WithMany("IssuedMissions")
+                        .WithMany()
                         .HasForeignKey("FromUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -102,24 +91,16 @@ namespace JackTrack.Migrations
                     b.Navigation("FromUser");
                 });
 
-            modelBuilder.Entity("MissionUser", b =>
-                {
-                    b.HasOne("JackTrack.Entities.Tasks.Mission", null)
-                        .WithMany()
-                        .HasForeignKey("MissionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("JackTrack.Entities.Users.User", null)
-                        .WithMany()
-                        .HasForeignKey("ToUsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("JackTrack.Entities.Users.User", b =>
                 {
-                    b.Navigation("IssuedMissions");
+                    b.HasOne("JackTrack.Entities.Tasks.Mission", null)
+                        .WithMany("ToUsers")
+                        .HasForeignKey("MissionId");
+                });
+
+            modelBuilder.Entity("JackTrack.Entities.Tasks.Mission", b =>
+                {
+                    b.Navigation("ToUsers");
                 });
 #pragma warning restore 612, 618
         }
