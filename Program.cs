@@ -11,7 +11,7 @@ builder.Services.AddDbContext<Context>(options =>
 {
     options.UseNpgsql(builder.Configuration["ConnectionString"]);
 });
-
+builder.Services.AddCors();
 
 
 var app = builder.Build();
@@ -23,6 +23,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseCors(x => x.AllowAnyOrigin());
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
