@@ -1,5 +1,7 @@
-﻿using JackTrack.Interfaces;
+﻿using JackTrack.Entities.Tasks;
+using JackTrack.Interfaces;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace JackTrack.Entities.Users
 {
@@ -12,5 +14,10 @@ namespace JackTrack.Entities.Users
 
 		public string Email { get; set; } = "None";
 
+		[JsonIgnore]
+		public IEnumerable<Mission> IssuedMissions { get; set; }
+
+		[JsonIgnore]
+		public IEnumerable<Mission> Missions { get; set; }
 	}
 }
