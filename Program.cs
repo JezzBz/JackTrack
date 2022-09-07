@@ -1,4 +1,5 @@
 using JackTrack.Entities.DataBase;
+using JackTrack.Extensions;
 using JackTrack.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,8 @@ builder.Services.AddDbContext<Context>(options =>
     options.UseNpgsql(builder.Configuration["ConnectionString"]);
 });
 builder.Services.AddCors();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 
 
 var app = builder.Build();
@@ -34,5 +37,7 @@ app.MapControllerRoute(
     pattern: "{controller}/{action=Index}/{id?}");
 
 app.MapFallbackToFile("index.html"); ;
+
+app.UseSession();
 
 app.Run();
