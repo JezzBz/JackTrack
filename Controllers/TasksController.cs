@@ -8,6 +8,7 @@ using JackTrack.Entities.ViewModels.Missions;
 using JackTrack.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 using Task = System.Threading.Tasks.Task;
 
 namespace JackTrack.Controllers
@@ -22,41 +23,41 @@ namespace JackTrack.Controllers
 
 		}
 
+
+
+
 		[HttpGet]
-		public IActionResult Get(GetMissionsMessage message)
+		public IActionResult Get([FromBody]GetMissionsMessage message)
 		{
-			var missions = Repository.GetAll<Mission>()
+			var query = Repository.GetAll<Mission>()
 				.Where(q => q.ProjectId == message.ProjectId);
-
-			if (message.Filters == null)
-			{
-				return Ok(missions.ToList());
-			}
-
-			if (message.Filters.UserIds != null && message.Filters.UserIds.Any())
-			{
-				missions = missions
-					.Where(q => q.ToUsers.Any(u => message.Filters.UserIds.ToList().Contains(u.Id))
-					|| message.Filters.UserIds.Any(ui => ui == q.FromUserId));
-			}
-
 			
-			return Ok(missions); 
+			if (message.Filters != null)
+			{
+				query = query = Filter(message, query);
+	
+			}
+			
+			var result = query.ToList();
+
+			return Ok(query.ToList()); 
 		}
 
 		[HttpPost("add")]
-		public async Task<IActionResult> Add([FromBody] AddMissionViewModel model)
+		public async Task<IActionResult> Add([FromBody]AddMissionViewModel model)
 		{
 			var entity = new Mission();
 
 			entity = PrepareEntity(entity,model);
 			entity = Copy(model,entity);
 
-
 			await Repository.Save(entity);			
 			
 			return Ok(entity);
 		}
+
+
+
 
 		private Mission PrepareEntity(Mission entity,AddMissionViewModel model)
 		{
@@ -73,6 +74,16 @@ namespace JackTrack.Controllers
 			return entity;
 		}
 
+		private IQueryable<Mission> Filter(GetMissionsMessage message, IQueryable<Mission> query)
+		{
+			if (message.Filters.UserIds != null && message.Filters.UserIds.Any())
+			{
+				query = query
+					.Where(q => q.ToUsers.Any(u => message.Filters.UserIds.ToList().Contains(u.Id))
+					|| message.Filters.UserIds.Any(ui => ui == q.FromUserId));
+			}
+			return query;
+		}
 
 	}
 }
