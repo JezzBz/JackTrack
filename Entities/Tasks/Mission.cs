@@ -21,10 +21,13 @@ namespace JackTrack.Entities.Tasks
 
 		public DateTime? EndTime { get; set; }
 
+		public DateTime CreateTime { get; set; }
+
+		public long ProjectId { get; set; }
+
 		/// <summary>
 		/// Who issued the task
 		/// </summary>
-
 		public User FromUser { get; set; }
 		public long FromUserId { get; set; }
 

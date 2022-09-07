@@ -1,4 +1,5 @@
-﻿using JackTrack.Entities.Tasks;
+﻿using JackTrack.Entities.Projects;
+using JackTrack.Entities.Tasks;
 using JackTrack.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
@@ -21,7 +22,9 @@ namespace JackTrack.Entities.Users
 
 		[JsonIgnore]
 		public IEnumerable<Mission> Missions { get; set; }
-	
+		
+		[JsonIgnore]
+		public IEnumerable<Project> Projects { get; set; } 
 	}
   
 	public enum Role

@@ -1,9 +1,10 @@
 ﻿using FluentNHibernate.Data;
 using JackTrack.Controllers.Base;
 using JackTrack.Entities.DataBase;
+using JackTrack.Entities.Messages.Missions;
 using JackTrack.Entities.Tasks;
 using JackTrack.Entities.Users;
-using JackTrack.Entities.ViewModels;
+using JackTrack.Entities.ViewModels.Missions;
 using JackTrack.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,12 +23,25 @@ namespace JackTrack.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult Get()
+		public IActionResult Get(GetMissionsMessage message)
 		{
-			var missions = Repository.GetAll<Mission>().Where(q => q.Id > 0).ToList();
+			var missions = Repository.GetAll<Mission>()
+				.Where(q => q.ProjectId == message.ProjectId);
 
-			AddMissionViewModel model = Copy<AddMissionViewModel>(missions[0], new AddMissionViewModel());
-			return Ok( model); 
+			if (message.Filters == null)
+			{
+				return Ok(missions.ToList());
+			}
+
+			if (message.Filters.UserIds != null && message.Filters.UserIds.Any())
+			{
+				missions = missions
+					.Where(q => q.ToUsers.Any(u => message.Filters.UserIds.ToList().Contains(u.Id))
+					|| message.Filters.UserIds.Any(ui => ui == q.FromUserId));
+			}
+
+			
+			return Ok(missions); 
 		}
 
 		[HttpPost("add")]
