@@ -37,7 +37,11 @@ if (app.Environment.IsDevelopment())
 //Configure default roles
 await app.Services.AnsureRoleSeedConfigured();
 
-app.UseCors(x => x.AllowAnyOrigin());
+app.UseCors(x => x
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials()
+        .AllowAnyOrigin());
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
