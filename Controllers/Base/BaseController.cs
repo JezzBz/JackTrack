@@ -1,19 +1,25 @@
 ﻿using FluentNHibernate.Automapping;
 using JackTrack.Entities.DataBase;
+using JackTrack.Entities.Users;
+using JackTrack.Extensions;
 using JackTrack.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
 namespace JackTrack.Controllers.Base
 {
-	public class BaseController : ControllerBase
+	public  class BaseController : ControllerBase
 	{
-		public  BaseController(Context context)
+		protected static ISession Session { get; set; }
+		protected IRepository Repository { get; set; }
+
+
+		public BaseController(Context context)
 		{
 			Repository = new Repository(context);
-			
 		}
-		protected IRepository Repository { get; set; }
+		
+		
 
 
 		protected virtual TEntity Copy<TEntity>(object message, TEntity entity) where TEntity : class
@@ -35,6 +41,7 @@ namespace JackTrack.Controllers.Base
 			return entity;
 		}
 
+	
 	
 	}
 }
