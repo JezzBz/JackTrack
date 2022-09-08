@@ -4,49 +4,43 @@ import axios from 'axios'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
-import { Mission } from '../store/types'
+import { Mission, MissionAction } from '../store/types/mission'
+import { fetchData } from '../hooks/fetchHook'
+import { useDispatch } from 'react-redux'
+import { fetchMissions } from '../store/action-creators/mission'
+import { useActions } from '../hooks/useActions'
+import { useTypedSelector } from '../hooks/useTypedSelector'
 
 
 
 
-const TestFetch = () => {
-	const [mission, setMission] = useState(Object)
+const TestFetch: FC = () => {
+
+	const dispatch = useDispatch()
+	const { fetchMissions } = useActions()
+	//const { missions } = useTypedSelector(state => state.missionReducer)
+
 
 
 
 
 	useEffect(() => {
-		axios.get('https://localhost:7257/api/tasks/', {
-			params: {
-				projectId: 1
-			},
-			headers: {
-				'Content-Type': 'application/json',
-			}
-		}).then(response => {
-			console.log(response.data)
-			const result = response.data
-			console.log(result)
-			setMission(result)
-			console.log(mission)
-		})
-
-
+		(fetchMissions())
 
 	}, [])
 
 
-
 	return (
 		<div>
-			<h1>{mission.name}</h1>
-			<h1>{mission.description}</h1>
-			<h1>{mission.startTime}</h1>
-			<h1>{mission.endTime}</h1>
+			{/* //////{missions.map(mission =>
+			//	<div key={mission.id}>{mission.name}</div>
+			//)} */}
 
-		</div>
-	)
+		</div>)
 }
+
+
+
 
 
 
