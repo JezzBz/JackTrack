@@ -3,6 +3,7 @@ using System;
 using JackTrack.Entities.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JackTrack.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220908105826_IdentityUserRolesMigration")]
+    partial class IdentityUserRolesMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +45,7 @@ namespace JackTrack.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Projects", (string)null);
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("JackTrack.Entities.Tasks.Mission", b =>
@@ -79,7 +81,7 @@ namespace JackTrack.Migrations
 
                     b.HasIndex("FromUserId");
 
-                    b.ToTable("Missions", (string)null);
+                    b.ToTable("Missions");
                 });
 
             modelBuilder.Entity("JackTrack.Entities.Users.Role", b =>
@@ -297,7 +299,7 @@ namespace JackTrack.Migrations
 
                     b.HasIndex("ToUsersId");
 
-                    b.ToTable("MissionUser", (string)null);
+                    b.ToTable("MissionUser");
                 });
 
             modelBuilder.Entity("ProjectUser", b =>
@@ -312,7 +314,7 @@ namespace JackTrack.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("ProjectUser", (string)null);
+                    b.ToTable("ProjectUser");
                 });
 
             modelBuilder.Entity("JackTrack.Entities.Tasks.Mission", b =>

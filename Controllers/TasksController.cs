@@ -5,8 +5,11 @@ using JackTrack.Entities.Messages.Missions;
 using JackTrack.Entities.Tasks;
 using JackTrack.Entities.Users;
 using JackTrack.Entities.ViewModels.Missions;
+using JackTrack.Extensions;
 using JackTrack.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 using Task = System.Threading.Tasks.Task;
@@ -15,19 +18,17 @@ namespace JackTrack.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize(Roles = "Admin")]
 	public class TasksController : BaseController
 	{
-
-		public TasksController(Context context) : base(context)
+		public TasksController(Context context, UserManager<User> userManager,RoleManager<Role> roleManager) : base(context)
 		{
-
 		}
 
 
 
-
 		[HttpGet]
-		public IActionResult Get([FromBody]GetMissionsMessage message)
+		public async  Task<IActionResult> Get([FromBody]GetMissionsMessage message)
 		{
 			var query = Repository.GetAll<Mission>()
 				.Where(q => q.ProjectId == message.ProjectId);

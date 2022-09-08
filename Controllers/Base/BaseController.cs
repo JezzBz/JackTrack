@@ -8,17 +8,15 @@ using System.Reflection;
 
 namespace JackTrack.Controllers.Base
 {
-	public class BaseController : ControllerBase
+	public  class BaseController : ControllerBase
 	{
-		protected ISession Session { get; set; }
-
+		protected static ISession Session { get; set; }
 		protected IRepository Repository { get; set; }
+
 
 		public BaseController(Context context)
 		{
 			Repository = new Repository(context);
-			//Session = HttpContext.Session;
-
 		}
 		
 		
