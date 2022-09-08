@@ -1,4 +1,4 @@
-import { List } from "reactstrap";
+
 import { Role } from "../enums/Role";
 
 interface IUser {
