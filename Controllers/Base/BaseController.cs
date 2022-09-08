@@ -17,6 +17,8 @@ namespace JackTrack.Controllers.Base
 		public BaseController(Context context)
 		{
 			Repository = new Repository(context);
+			
+
 		}
 		
 		

@@ -48,7 +48,7 @@ app.UseCors(x => x
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials()
-        .WithOrigins("https://localhost:44484/"));
+        .WithOrigins(new[] { "https://localhost:44484" }));
 
 
 
@@ -59,7 +59,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
 
-app.MapFallbackToFile("index.html"); ;
-
+app.MapFallbackToFile("index.html"); 
 app.UseSession();
 app.Run();
