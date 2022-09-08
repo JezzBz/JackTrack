@@ -27,7 +27,7 @@ namespace JackTrack.Controllers
 
 
 
-		[HttpGet]
+		[HttpPost]
 		public async  Task<IActionResult> Get([FromBody]GetMissionsMessage message)
 		{
 			var query = Repository.GetAll<Mission>()
