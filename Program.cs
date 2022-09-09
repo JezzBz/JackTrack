@@ -41,7 +41,7 @@ app.UseCors(x => x
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials()
-        .WithOrigins("https://localhost:44484/"));
+        .WithOrigins("https://localhost:44484"));
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
