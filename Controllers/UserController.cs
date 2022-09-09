@@ -3,10 +3,12 @@ using JackTrack.Entities.DataBase;
 using JackTrack.Entities.Users;
 using JackTrack.Entities.ViewModels;
 using JackTrack.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace JackTrack.Controllers
 {
@@ -43,6 +45,25 @@ namespace JackTrack.Controllers
 			}
 
 			return Ok(new {error = "Incorrect login or password!" });
-		} 
+		}
+		[HttpPost("authorized")]
+		[Authorize]
+		public async Task<IActionResult> IsAthorized()
+		{
+			var identity = (ClaimsIdentity)User.Identity;
+			IEnumerable<Claim> claims = identity.Claims;
+
+			var email = claims.FirstOrDefault(q => q.Type == ClaimTypes.Email).Value;
+
+			if (email == null) return BadRequest("Server error!");
+
+			var user = await _userManager.FindByEmailAsync(email);
+
+			if (user == null) return BadRequest("Server error!");
+
+			UserResultViewModel response = Copy(user, new UserResultViewModel());
+
+			return Ok(new { User = response });
+		}
 	}
 }

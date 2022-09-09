@@ -1,6 +1,7 @@
 ﻿using JackTrack.Entities.DataBase;
 using JackTrack.Entities.Users;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace JackTrack.Extensions
 {
@@ -34,7 +35,11 @@ namespace JackTrack.Extensions
 			{
 				if (await userManager.FindByEmailAsync(user.Email) == null)
 				{
+					
 					await userManager.CreateAsync(user);
+				
+					
+					
 
 					if (user.Email.Contains("@admin.com")) await userManager.AddToRoleAsync(user,"Admin");
 				}
