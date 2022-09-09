@@ -37,7 +37,7 @@ namespace JackTrack.Controllers
 				return Ok("Sucessed!");
 			}
 
-			return Ok("Incorrect login or password!");
+			return Ok(new {error =  "Incorrect login or password!" });
 		} 
 	}
 }
