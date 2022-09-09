@@ -1,10 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Formik, Field, Form } from "formik";
 import { fetchData } from '../hooks/fetchHook';
+import { useActions } from '../hooks/useActions';
+import { useTypedSelector } from '../hooks/useTypedSelector';
+import { IUser } from '../store/types/user';
+
 
 
 const Login = () => {
+	const { setUser } = useActions()
+	const { user, error } = useTypedSelector(state => state.user)
+
+
+
+
+
+
+
+
 
 
 
@@ -12,15 +26,21 @@ const Login = () => {
 
 	return (
 
-		<div>
+
+		< div >
+
 
 			<Formik
 				initialValues={{ email: '', password: '' }}
-				onSubmit={(value) => fetchData('user/login', value)}
+
+				onSubmit={(value) => { setUser(value) }}
+
+
 
 
 
 			>
+
 
 
 
@@ -36,7 +56,9 @@ const Login = () => {
 
 				</Form>
 			</Formik>
-		</div>
+			<h1>{error}</h1>
+			<h1>{user?.email}</h1>
+		</ div>
 	)
 }
 

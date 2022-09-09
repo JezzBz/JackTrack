@@ -1,13 +1,8 @@
 import { MissionActionTypes } from "../../enums/actionTypes";
+import { IUser } from "./user";
 
 
-interface IUser {
-	id: number;
-	name: string;
-	email: string;
 
-
-}
 
 export interface missionState {
 	missions: Mission[];
