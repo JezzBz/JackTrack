@@ -12,10 +12,10 @@ export const fetchMissions = () => {
 			dispatch({
 				type: MissionActionTypes.FETCH_MISSIONS
 			})
-			const response = fetchData('tasks', { projectId: 1 })
+			const response = await  fetchData('tasks', { projectId: 1 })
 			dispatch({
 				type: MissionActionTypes.FETCH_MISSIONS_SUCCESS,
-				payload: (await response).data
+				payload:  response.data
 			})
 
 		} catch (e) {
