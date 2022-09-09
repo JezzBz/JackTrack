@@ -15,7 +15,11 @@ export const fetchData = async (controller: string, payload: any) => {
 
 		}
 	}).then(response => {
+
 		return response
+
+
+
 
 	})
 
