@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Task = System.Threading.Tasks.Task;
 
@@ -31,6 +32,7 @@ namespace JackTrack.Controllers
 		public IActionResult Get([FromBody]GetMissionsMessage message)
 		{
 			var query = Repository.GetAll<Mission>()
+				.Include(q => q.ToUsers)
 				.Where(q => q.ProjectId == message.ProjectId);
 			
 			if (message.Filters != null)
@@ -39,9 +41,16 @@ namespace JackTrack.Controllers
 	
 			}
 			
-			var result = query.ToList();
+			var queryResult = query.ToList();
 
-			return Ok(query.ToList()); 
+			var result = new List<GetMissionViewModel>();
+			foreach (var mission in queryResult)
+			{
+				var model = Copy(mission,new GetMissionViewModel());
+				model.ToUsersIds = mission.ToUsers.Select(q => q.Id);
+				result.Add(model);
+			}
+			return Ok(result); 
 		}
 
 		[HttpPost("add")]
@@ -49,30 +58,31 @@ namespace JackTrack.Controllers
 		{
 			var entity = new Mission();
 
-			entity = PrepareEntity(entity,model);
+			model = PrepareModel(entity,model);
 			entity = Copy(model,entity);
-
+			entity.ToUsers = model.ToUsers;
 			await Repository.Save(entity);			
 			
-			return Ok(entity);
+			var result = Copy(entity,new GetMissionViewModel());
+
+			result.ToUsersIds = model.ToUsers?.Select(q => q.Id);
+
+			return Ok(result);
 		}
 
 
 
 
-		private Mission PrepareEntity(Mission entity,AddMissionViewModel model)
+		private AddMissionViewModel PrepareModel(Mission entity, AddMissionViewModel model)
 		{
 			
-			entity.ToUsers = model.ToUsersIds?.Select(q => new User() { Id = q });
-
 			var users = Repository.GetAll<User>()
 				.Where(q => model.ToUsersIds.Contains(q.Id))
 				.ToList();
 
-			entity.FromUserId = model.FromUserId;
-			entity.ToUsers = users; 
+			model.ToUsers = users; 
 
-			return entity;
+			return model;
 		}
 
 		private IQueryable<Mission> Filter(GetMissionsMessage message, IQueryable<Mission> query)

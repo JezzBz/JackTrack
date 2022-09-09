@@ -35,7 +35,7 @@ namespace JackTrack.Entities.Tasks
 		/// To whom the task was issued
 		/// </summary>
 		[JsonIgnore]
-		public IEnumerable<User>? ToUsers { get; set; }
+		public List<User>? ToUsers { get; set; }
 		
 	}
 }

@@ -23,6 +23,10 @@ namespace JackTrack.Entities.DataBase
 				.HasForeignKey(q => q.FromUserId)
 				.HasPrincipalKey(q => q.Id);
 
+			modelBuilder.Entity<Mission>()
+				.HasMany(q => q.ToUsers)
+				.WithMany(q => q.Missions);
+
 			modelBuilder.Entity<Project>()
 				.HasMany(q => q.Users)
 				.WithMany(q => q.Projects);

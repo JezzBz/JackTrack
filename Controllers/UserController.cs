@@ -36,7 +36,10 @@ namespace JackTrack.Controllers
 			if (user != null && user.PasswordHash == model.Password.Hash())
 			{
 				await _signInManager.SignInAsync(user,true);
-				return Ok(new { User = user });
+
+				UserResultViewModel response = Copy(user, new UserResultViewModel());
+
+				return Ok(new { User = response });
 			}
 
 			return Ok(new {error = "Incorrect login or password!" });

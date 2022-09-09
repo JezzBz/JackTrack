@@ -9,8 +9,8 @@ namespace JackTrack.Entities.Users
 {
 	public class User : IdentityUser<long>
 	{
-	
 
+		public override long Id { get; set; }
 		public string Name { get; set; } = "None";
 
 		[JsonIgnore]

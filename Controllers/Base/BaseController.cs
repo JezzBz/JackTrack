@@ -30,8 +30,6 @@ namespace JackTrack.Controllers.Base
 			{
 
 				var entityProperty = entity.GetType().GetProperty(prop.Name);
-
-				if (entityProperty?.GetValue(entity) != null) continue;
 				
 				if (entityProperty == null) continue;
 
