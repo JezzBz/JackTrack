@@ -31,7 +31,9 @@ namespace JackTrack.Controllers
 		{
 			var user = await _userManager.FindByEmailAsync(model.Email);
 
-			if (user.PasswordHash == model.Password.Hash())
+			
+
+			if (user != null && user.PasswordHash == model.Password.Hash())
 			{
 				await _signInManager.SignInAsync(user,true);
 				return Ok("Sucessed!");
