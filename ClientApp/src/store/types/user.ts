@@ -33,7 +33,7 @@ interface FetchUsersSuccessAction {
 
 interface FetchUsersErrorAction {
 	type: UserActionTypes.FETCH_USER_ERROR,
-	payload: string
+	payload: any
 }
 
 

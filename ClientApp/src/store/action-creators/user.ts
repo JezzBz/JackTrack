@@ -18,15 +18,20 @@ export const setUser = (payload: object) => {
 			dispatch({
 				type: UserActionTypes.FETCH_USER_SUCCESS,
 
-				payload: response.data.user
+				payload: response.data.data
 			})
+			dispatch({
+				type: UserActionTypes.FETCH_USER_ERROR,
+				payload: null
+			})
+
 
 
 		} catch (e) {
 			dispatch({
 				type: UserActionTypes.FETCH_USER_ERROR,
 
-				payload: 'Неправильный логин или пароль.'
+				payload: e
 
 			})
 		}
