@@ -27,7 +27,7 @@ namespace JackTrack.Controllers
 		}
 
 		[HttpPost("login")]
-		public async Task<IActionResult> Login([FromForm]LoginViewModel model)
+		public async Task<IActionResult> Login([FromBody]LoginViewModel model)
 		{
 			var user = await _userManager.FindByEmailAsync(model.Email);
 
@@ -37,7 +37,7 @@ namespace JackTrack.Controllers
 				return Ok("Sucessed!");
 			}
 
-			return Ok(new {error =  "Incorrect login or password!" });
+			return Ok(new {error = "Incorrect login or password!" });
 		} 
 	}
 }
