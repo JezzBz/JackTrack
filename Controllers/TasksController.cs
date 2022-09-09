@@ -1,6 +1,7 @@
 ﻿using FluentNHibernate.Data;
 using JackTrack.Controllers.Base;
 using JackTrack.Entities.DataBase;
+using JackTrack.Entities.Http;
 using JackTrack.Entities.Messages.Missions;
 using JackTrack.Entities.Tasks;
 using JackTrack.Entities.Users;
@@ -50,7 +51,10 @@ namespace JackTrack.Controllers
 				model.ToUsersIds = mission.ToUsers.Select(q => q.Id);
 				result.Add(model);
 			}
-			return Ok(result); 
+
+			var response = new ServerResponse(result);
+
+			return Ok(response); 
 		}
 
 		[HttpPost("add")]
@@ -67,7 +71,9 @@ namespace JackTrack.Controllers
 
 			result.ToUsersIds = model.ToUsers?.Select(q => q.Id);
 
-			return Ok(result);
+			var response = new ServerResponse(result);
+
+			return Ok(response);
 		}
 
 

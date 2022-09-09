@@ -1,5 +1,6 @@
 ﻿using JackTrack.Controllers.Base;
 using JackTrack.Entities.DataBase;
+using JackTrack.Entities.Http;
 using JackTrack.Entities.Users;
 using JackTrack.Entities.ViewModels;
 using JackTrack.Extensions;
@@ -39,12 +40,14 @@ namespace JackTrack.Controllers
 			{
 				await _signInManager.SignInAsync(user,true);
 
-				UserResultViewModel response = Copy(user, new UserResultViewModel());
-
-				return Ok(new { User = response });
+				UserResultViewModel userResult = Copy(user, new UserResultViewModel());
+				
+				var response = new ServerResponse(userResult);
+				return Ok(response);
+			
 			}
 
-			return Ok(new {error = "Incorrect login or password!" });
+			return Ok(new ServerResponse(error:"Invalid login or password!"));
 		}
 		[HttpPost("authorized")]
 		[Authorize]
@@ -55,15 +58,16 @@ namespace JackTrack.Controllers
 
 			var email = claims.FirstOrDefault(q => q.Type == ClaimTypes.Email).Value;
 
-			if (email == null) return BadRequest("Server error!");
+			if (email == null) return Ok(new ServerResponse(error:"Server error, try again later!"));
 
 			var user = await _userManager.FindByEmailAsync(email);
 
-			if (user == null) return BadRequest("Server error!");
+			if (user == null) return Ok(new ServerResponse(error: "Failed to authorize!"));
 
-			UserResultViewModel response = Copy(user, new UserResultViewModel());
+			UserResultViewModel result = Copy(user, new UserResultViewModel());
+			var response = new ServerResponse(result);
 
-			return Ok(new { User = response });
+			return Ok(response);
 		}
 	}
 }
