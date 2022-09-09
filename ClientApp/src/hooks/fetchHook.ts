@@ -15,7 +15,9 @@ export const fetchData = async (controller: string, payload: any) => {
 
 		}
 	}).then(response => {
-
+		if (response.data.error != null) {
+			throw response.data.error
+		}
 		return response
 
 
