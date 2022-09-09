@@ -1,5 +1,7 @@
 import * as MissionActionCreators from './mission'
+import * as UserActionCreators from './user'
 
 export default {
-	...MissionActionCreators
+	...MissionActionCreators,
+	...UserActionCreators
 }
