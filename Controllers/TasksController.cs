@@ -18,7 +18,7 @@ namespace JackTrack.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	//[Authorize(Roles = "Admin")]
+	[Authorize(Roles = "Admin")]
 	public class TasksController : BaseController
 	{
 		public TasksController(Context context, UserManager<User> userManager,RoleManager<Role> roleManager) : base(context)

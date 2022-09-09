@@ -25,14 +25,14 @@ const TestFetch: FC = () => {
 	useEffect(() => {
 		(fetchMissions())
 
-	},[])
+	}, [])
 
 
 	return (
 		<div>
 
 			{missions.map(mission =>
-				<div>{mission.name}</div>
+				<div key={mission.id}>{mission.name}</div>
 			)}
 
 		</div>)
