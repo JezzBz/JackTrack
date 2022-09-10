@@ -19,6 +19,7 @@ export const missionReducer = (state = initialState, action: MissionAction) => {
 			return { ...state, loading: true }
 
 		case MissionActionTypes.FETCH_MISSIONS_SUCCESS:
+
 			return { ...state, loading: false, missions: action.payload }
 
 		case MissionActionTypes.FETCH_MISSIONS_ERROR:

@@ -1,16 +1,37 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Formik, Field, Form } from "formik";
 import { fetchData } from '../hooks/fetchHook';
 import { useActions } from '../hooks/useActions';
 import { useTypedSelector } from '../hooks/useTypedSelector';
 import { IUser } from '../store/types/user';
+import AuthForm from './AuthForm';
+import { Link, Navigate } from 'react-router-dom';
+import Suck from './Suck';
+
 
 
 
 const Login = () => {
-	const { setUser } = useActions()
-	const { user, error } = useTypedSelector(state => state.user)
+	const { user, loading } = useTypedSelector(state => state.user)
+	const [result, setResult] = useState<any>()
+	useEffect(() => {
+
+		if (loading) {
+			setResult(<Suck />)
+		} else {
+			user == null ? setResult(
+				< div >
+					<AuthForm />
+					<Link to='/testfetch'>sad</Link>
+
+
+
+
+				</ div>
+			) : setResult(<Navigate to="/" />)
+		}
+	}
 
 
 
@@ -19,47 +40,11 @@ const Login = () => {
 
 
 
+		, [loading, user])
 
-
-
-
-
-	return (
-
-
-		< div >
-
-
-			<Formik
-				initialValues={{ email: '', password: '' }}
-
-				onSubmit={(value) => { setUser(value) }}
-
-
-
-
-
-			>
-
-
-
-
-
-				<Form>
-
-					<Field name="email" type="email" />
-					<Field name="password" type="password" />
-					<button type="submit">Submit</button>
-
-
-
-
-				</Form>
-			</Formik>
-			<h1>{error}</h1>
-			<h1>{user?.email}</h1>
-		</ div>
-	)
+	return result
 }
+
+
 
 export default Login
