@@ -17,3 +17,11 @@ export enum UserActionTypes {
 
 
 }
+
+
+export enum AuthorizedActionTypes {
+	FETCH_AUTH = 'FETCH_AUTH',
+	FETCH_AUTH_SUCCESS = 'FETCH_AUTH_SUCCESS',
+	FETCH_AUTH_ERROR = 'FETCH_AUTH_ERROR'
+
+}
