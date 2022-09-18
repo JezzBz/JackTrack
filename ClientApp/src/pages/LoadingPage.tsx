@@ -2,7 +2,9 @@ import React from 'react'
 
 function LoadingPage() {
 	return (
-		<div className='spinner'>  </div>
+		<div className="LoadingPage">
+			<div className='spinner'>  </div>
+		</div>
 	)
 }
 

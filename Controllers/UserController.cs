@@ -49,6 +49,8 @@ namespace JackTrack.Controllers
 
 			return Ok(new ServerResponse(error:"Invalid login or password!"));
 		}
+
+
 		[HttpPost("authorized")]
 		[Authorize]
 		public async Task<IActionResult> IsAthorized()

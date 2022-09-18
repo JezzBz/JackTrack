@@ -7,7 +7,7 @@ import { UserAction, UserState } from "../types/user"
 
 
 
-export const setUser = (payload: object) => {
+export const setUser = (payload: object|null) => {
 	return async (dispatch: Dispatch<UserAction>) => {
 		try {
 			dispatch({

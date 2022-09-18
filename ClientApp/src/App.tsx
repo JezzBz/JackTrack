@@ -7,13 +7,15 @@ import TestFetch from './components/TestFetch'
 import { fetchData } from './hooks/fetchHook'
 import { useActions } from './hooks/useActions'
 import { useTypedSelector } from './hooks/useTypedSelector'
+import NotFoundPage from './pages/NotFoundPage'
+import HomePage from './pages/HomePage'
 
 function App() {
 	const { loading, user } = useTypedSelector(state => state.user)
 	const { fetchAuth } = useActions()
 	useLayoutEffect(() => {
 
-		fetchAuth(); console.log(1)
+		fetchAuth()
 	}, [])
 
 
@@ -25,9 +27,10 @@ function App() {
 
 			<BrowserRouter>
 				<Routes>
+					<Route path='/' element={<HomePage/>}/>
 					<Route path='/login' element={<Login />} />
 					<Route path='testfetch' element={<PrivateRoute component={<TestFetch />} />} />
-
+					<Route path="*" element={<NotFoundPage />}/>
 
 
 
