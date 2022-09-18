@@ -31,7 +31,7 @@ export const fetchAuth = () => {
 		} catch (e) {
 			dispatch({
 				type: UserActionTypes.FETCH_USER_ERROR,
-				payload: 'Ошибка'
+				payload: null
 
 			})
 		}

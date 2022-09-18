@@ -17,20 +17,21 @@ const AuthForm = () => {
 
 
 	return (
-		<div>
+		<div className='AuthFormContainer'>
 
 			<Formik
 				initialValues={{ email: '', password: '' }}
 				onSubmit={(value) => { setUser(value) }}>
 
 
-				<Form>
-					<Field name="email" type="email" />
-					<Field name="password" type="password" />
-					<button type="submit">Submit</button>
+				<Form className='AuthFormContainer_AuthForm'>
+					<Field className='AuthFormContainer_AuthForm_Field' name="email" type="email" placeholder='Email' />
+					<Field className='AuthFormContainer_AuthForm_Field' name="password" type="password" placeholder='Password' />
+					<button className='AuthFormContainer_AuthForm_Button' type="submit">Submit</button>
+					<div>{error}</div>
 				</Form>
 			</Formik>
-			<div>{error}</div>
+
 		</div>
 	)
 }

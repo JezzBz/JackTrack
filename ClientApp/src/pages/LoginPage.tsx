@@ -5,9 +5,11 @@ import { fetchData } from '../hooks/fetchHook';
 import { useActions } from '../hooks/useActions';
 import { useTypedSelector } from '../hooks/useTypedSelector';
 import { IUser } from '../store/types/user';
-import AuthForm from './AuthForm';
+import AuthForm from '../components/AuthForm';
 import { Link, Navigate } from 'react-router-dom';
-import Suck from './Suck';
+import '../styles/LoginPage.css'
+import LoadingPage from './LoadingPage';
+import { LogoSvg } from '../img/svgs';
 
 
 
@@ -18,12 +20,22 @@ const Login = () => {
 	useEffect(() => {
 
 		if (loading) {
-			setResult(<Suck />)
+			setResult(<LoadingPage />)
 		} else {
 			user == null ? setResult(
-				< div >
+				< div className='LoginPage'  >
+
+					<LogoSvg />
+
+
+
+
+
+
+
+
 					<AuthForm />
-					<Link to='/testfetch'>sad</Link>
+
 
 
 
