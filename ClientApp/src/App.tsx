@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
-import Login from './components/Login'
+import Login from './pages/LoginPage'
 import PrivateRoute from './components/PrivateRoute'
 import TestFetch from './components/TestFetch'
 import { fetchData } from './hooks/fetchHook'

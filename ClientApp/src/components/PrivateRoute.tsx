@@ -3,7 +3,8 @@ import { useTypedSelector } from '../hooks/useTypedSelector'
 import { Navigate, Route } from 'react-router-dom'
 import { useActions } from '../hooks/useActions'
 import { IUser } from '../store/types/user'
-import Suck from './Suck'
+
+import LoadingPage from '../pages/LoadingPage'
 
 const PrivateRoute = (props: any) => {
 	const { user, loading } = useTypedSelector(state => state.user)
@@ -12,12 +13,11 @@ const PrivateRoute = (props: any) => {
 
 	useEffect(() => {
 		if (loading) {
-			setResult(<Suck />)
+			setResult(<LoadingPage />)
 		} else {
 			setResult((user === null) ? <Navigate to="/login" /> : props.component)
 
 		}
-
 
 
 
