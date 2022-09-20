@@ -6,13 +6,13 @@ import { MissionAction } from "../types/mission"
 
 
 
-export const fetchMissions = () => {
+export const fetchMissions = (projectId:number) => {
 	return async (dispatch: Dispatch<MissionAction>) => {
 		try {
 			dispatch({
 				type: MissionActionTypes.FETCH_MISSIONS
 			})
-			const response = await fetchData('tasks', { projectId: 1 })
+			const response = await fetchData('tasks', { projectId: projectId })
 			dispatch({
 				type: MissionActionTypes.FETCH_MISSIONS_SUCCESS,
 				payload: response.data.data

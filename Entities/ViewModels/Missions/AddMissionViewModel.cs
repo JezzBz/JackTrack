@@ -17,7 +17,6 @@ namespace JackTrack.Entities.ViewModels.Missions
         public DateTime? EndTime { get; set; }
         public DateTime? CreateTime { get; set; }
 
-        public long FromUserId { get; set; }
 
         public IEnumerable<long>? ToUsersIds { get; set; }
 

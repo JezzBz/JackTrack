@@ -16,6 +16,9 @@ builder.Services.AddDbContext<Context>(options =>
 builder.Services.AddCors();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
+builder.Services.AddDistributedMemoryCache();
+
+
 
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication();
@@ -53,11 +56,13 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseSession();
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
 
 app.MapFallbackToFile("index.html"); ;
 
-app.UseSession();
+
 app.Run();

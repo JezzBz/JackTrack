@@ -11,7 +11,7 @@ export default function HomePage() {
     <div className='HomePage'>
 
         <Link to="/login">Sign in</Link>
-        <Link to ="/testfetch">Tasks</Link>
+        <Link to ="/project">Tasks</Link>
         <Link to ="/asda">Not found</Link>
 
     </div>

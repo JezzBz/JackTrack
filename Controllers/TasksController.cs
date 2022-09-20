@@ -1,4 +1,5 @@
 ﻿using FluentNHibernate.Data;
+using JackTrack.ActionFilters;
 using JackTrack.Controllers.Base;
 using JackTrack.Entities.DataBase;
 using JackTrack.Entities.Http;
@@ -20,7 +21,7 @@ namespace JackTrack.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	[Authorize(Roles = "Admin")]
+	[Authorize]
 	public class TasksController : BaseController
 	{
 		public TasksController(Context context, UserManager<User> userManager,RoleManager<Role> roleManager) : base(context)
@@ -30,15 +31,17 @@ namespace JackTrack.Controllers
 
 
 		[HttpPost]
-		public IActionResult Get([FromBody]GetMissionsMessage message)
+		[Authorize]
+		[UserProject]
+		public IActionResult Get([FromBody]GetMissionsMessage model)
 		{
 			var query = Repository.GetAll<Mission>()
 				.Include(q => q.ToUsers)
-				.Where(q => q.ProjectId == message.ProjectId);
+				.Where(q => q.ProjectId == model.ProjectId);
 			
-			if (message.Filters != null)
+			if (model.Filters != null)
 			{
-				query = query = Filter(message, query);
+				query = query = Filter(model, query);
 	
 			}
 			
@@ -47,21 +50,23 @@ namespace JackTrack.Controllers
 			var result = new List<GetMissionViewModel>();
 			foreach (var mission in queryResult)
 			{
-				var model = Copy(mission,new GetMissionViewModel());
-				model.ToUsersIds = mission.ToUsers.Select(q => q.Id);
-				result.Add(model);
+				var message = Copy(mission,new GetMissionViewModel());
+				message.ToUsersIds = mission.ToUsers.Select(q => q.Id);
+				result.Add(message);
 			}
 
-			var response = new ServerResponse(result);
+			
 
-			return Ok(response); 
+			return ServerResponse(result); 
 		}
 
 		[HttpPost("add")]
+		[Authorize]
+		[UserProject]
 		public async Task<IActionResult> Add([FromBody]AddMissionViewModel model)
 		{
 			var entity = new Mission();
-
+			entity.FromUserId = HttpContext.User.Claims.GetId();
 			model = PrepareModel(entity,model);
 			entity = Copy(model,entity);
 			entity.ToUsers = model.ToUsers;
@@ -71,9 +76,9 @@ namespace JackTrack.Controllers
 
 			result.ToUsersIds = model.ToUsers?.Select(q => q.Id);
 
-			var response = new ServerResponse(result);
+			
 
-			return Ok(response);
+			return ServerResponse(result);
 		}
 
 

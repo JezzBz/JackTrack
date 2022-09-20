@@ -1,10 +1,13 @@
 ﻿using FluentNHibernate.Automapping;
 using JackTrack.Entities.DataBase;
+using JackTrack.Entities.Http;
 using JackTrack.Entities.Users;
 using JackTrack.Extensions;
 using JackTrack.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Reflection;
+using System.Security.Claims;
 
 namespace JackTrack.Controllers.Base
 {
@@ -39,7 +42,7 @@ namespace JackTrack.Controllers.Base
 			return entity;
 		}
 
-	
-	
+		protected virtual IActionResult ServerResponse<T>(T data, string error = null) => Ok(new ServerResponse(data, error));
+		
 	}
 }

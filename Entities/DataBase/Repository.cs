@@ -29,11 +29,21 @@ namespace JackTrack.Entities.DataBase
 			await Add(entity);
 			await _context.SaveChangesAsync();
 		}
-		
-		public async Task Save() => await  _context.SaveChangesAsync();
 
+		public async Task Update<TEntity>(TEntity entity)
+			where TEntity : class
+			=> _context.Set<TEntity>().Update(entity);
+
+		public async Task SaveAsync() => await  _context.SaveChangesAsync();
+
+		public void Save() => _context.SaveChanges();
+
+	
 		public  void Attach<TEntity>(TEntity entity) where TEntity : class  => _context.Set<TEntity>().Attach(entity);
 
 		public  void Attach<TEntity>(IEnumerable<TEntity> entity) where TEntity : class => _context.Set<TEntity>().AttachRange(entity);
+
+		public void Entry<TEntity>(TEntity entity) where TEntity : class => _context.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+		
 	}
 }

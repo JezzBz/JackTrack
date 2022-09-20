@@ -13,12 +13,17 @@
 		public  Task Save<TEntity>(TEntity entity)
 			where TEntity : class;
 
-		public  Task Save();
+		public  Task SaveAsync();
+
+		public void Save();
 
 		public void Attach<TEntity>(TEntity entity) 
 			where TEntity : class;
 
 		public void Attach<TEntity>(IEnumerable<TEntity> entity)
+			where TEntity : class;
+
+		public void Entry<TEntity>(TEntity entity)
 			where TEntity : class;
 	}
 }
